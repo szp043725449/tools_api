@@ -21,10 +21,10 @@ class ApiSign
     {   
         $configName = 'haolyyService';
         if (\Config::get($configName.'.openMiddlewareSign')) {
-            $signData = $request->query->all();
-            $appId = $request->query->get('app_id');
+            $signData = $request->request->all();
+            $appId = $request->request->get('app_id');
             if (count($signData)>1) {
-                $appId = $request->query->get('sign');
+                $appId = $request->request->get('sign');
                 $secret = \Config::get($configName.'.secret');
                 unset($signData['secret']);
                 $_sign = $signData['sign'];
