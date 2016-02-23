@@ -1,4 +1,4 @@
-# Laravel HaolyyService
+# Laravel ToolsService
 
 ## Documentation
 
@@ -7,19 +7,19 @@
 Require this package  
 
 ```php
-php composer.phar require "haolyy/api:dev-master" -vvv
+php composer.phar require "tools/api:dev-master" -vvv
 ```
 
 After adding the package, add the ServiceProvider to the providers array in `config/app.php`
 
 ```php
-Haolyy\Api\HaolyyServiceProvider::class,,
+Tools\Api\ToolsServiceProvider::class,,
 ```
 
-Optionally you can register the HaolyyService facade:
+Optionally you can register the ToolsService facade:
 
 ```php
-'haolyyServer'      => Haolyy\Api\Facades\HaolyyService::class,
+'toolsServer'      => Tools\Api\Facades\HaolyyService::class,
 ```
 
 To publish the config use:
