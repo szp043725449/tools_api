@@ -19,12 +19,15 @@ class ApiSign
      */
     public function handle($request, Closure $next, $guard = null)
     {   
-        $configName = 'haolyyService';
+        $configName = 'tools';
         if (\Config::get($configName.'.openMiddlewareSign')) {
             $signData = $request->request->all();
             $appId = $request->request->get('app_id');
             if (count($signData)>1) {
-                $appId = $request->request->get('sign');
+                $sign = $request->request->get('sign');
+                if ($appId && $sign) {
+                    break;
+                }
                 $secret = \Config::get($configName.'.secret');
                 unset($signData['secret']);
                 $_sign = $signData['sign'];
