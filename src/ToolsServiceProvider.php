@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Tools\Api\ToolsService;
 use Tools\Api\Sign\SignService;
 use Tools\Api\Middleware\ApiSign;
+use Tools\Api\Console\GenerateAppIdCommand;
 
 class ToolsServiceProvider extends ServiceProvider {
 
@@ -31,6 +32,7 @@ class ToolsServiceProvider extends ServiceProvider {
     {
         $this->registerService();
         $this->registerMiddleware();
+        $this->registerConsoleCommands();
     }
 
     /**
@@ -61,5 +63,15 @@ class ToolsServiceProvider extends ServiceProvider {
         $this->app->singleton('hsign', function ($app) {
             return new SignService();
         });
+    }
+
+    /**
+     * Register console commands
+     */
+    protected function registerConsoleCommands()
+    {
+        $this->commands([
+            GenerateAppIdCommand::class,
+        ]);
     }
 }
