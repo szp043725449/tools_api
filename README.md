@@ -19,7 +19,7 @@ Tools\Api\ToolsServiceProvider::class,,
 Optionally you can register the ToolsService facade:
 
 ```php
-'toolsServer'      => Tools\Api\Facades\HaolyyService::class,
+'toolsServer'      => Tools\Api\Facades\ToolsService::class,
 ```
 
 To publish the config use:
