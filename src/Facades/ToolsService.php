@@ -11,7 +11,7 @@ class ToolsService extends Facade {
      */
     protected static function getFacadeAccessor()
     {
-        return 'HaolyyService';
+        return 'toolsService';
     }
 
 }
