@@ -20,6 +20,9 @@
     "autoload": {
         "psr-4": {
             "Tools\\Api\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     }
 }
