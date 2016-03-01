@@ -16,6 +16,8 @@ class ControllerSign extends BaseController implements ControllerSignInterface
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    private $_appMessage;
+
     /**
      * [getSecret description]
      * @param  [type] $appId [description]
@@ -24,7 +26,7 @@ class ControllerSign extends BaseController implements ControllerSignInterface
     public function getSecret($appId)
     {
         $configAppId = Config::get('tools.interface_app_id');
-        if ($configAppId !== $appId) {
+        if ($configAppId == $appId) {
             return Config::get('tools.interface_secret');
         }
 
@@ -39,10 +41,24 @@ class ControllerSign extends BaseController implements ControllerSignInterface
                 $appIdMessage = $appIdMessage['product'];
             }
             
-            Arr::where($appIdMessage, 'eachSign');
+            $app = Arr::where($appIdMessage, function($key, $value) use($appId){
+                        if ($appId == $value['app_id']) {
+                            return true;
+                        }
 
+                        return false;
+                    });
+            if ($app) {
+                $this->_appMessage = $app;
+                return $app[0]['secret'];
+            }
         }
 
         return "";
+    }
+
+    public function getAppMessage()
+    {
+        return $this->_appMessage;
     }
 }
