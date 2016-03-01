@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 use \Config;
 use Illuminate\Http\JsonResponse;
+use Tools\Api\Sign\ControllerSignInterface;
+use \App;
 
 class ApiSign
 {
@@ -18,17 +20,25 @@ class ApiSign
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
-    {   
+    {
+        $actionName = \Route::current()->getActionName();
+        $actionNameArray = explode('@', $actionName);
+        $controller = $actionNameArray[0];
+        $controllerClass = App::make($controller);
+        //$controller = 
         $configName = 'tools';
         if (\Config::get($configName.'.openMiddlewareSign')) {
             $signData = $request->request->all();
             $appId = $request->request->get('app_id');
             if (count($signData)>1) {
                 $sign = $request->request->get('sign');
-                if ($appId && $sign) {
+                if (!$appId || !$sign) {
                     break;
                 }
                 $secret = \Config::get($configName.'.secret');
+                if ($controllerClass instanceof ControllerSignInterface) {
+                    $secret = $controllerClass->getSecret($appId);
+                }
                 unset($signData['secret']);
                 $_sign = $signData['sign'];
                 unset($signData['sign']);

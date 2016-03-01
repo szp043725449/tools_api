@@ -49,7 +49,7 @@ class ToolsServiceProvider extends ServiceProvider {
     protected function registerService()
     {
         $this->app->singleton('toolsService', function ($app) {
-            return new HaolyyService();
+            return new ToolsService();
         });
         $this->app->alias('hs', ToolsService::class);
     }  

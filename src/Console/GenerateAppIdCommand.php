@@ -4,6 +4,10 @@ namespace Tools\Api\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Inspiring;
+use \Config;
+use \Curl;
+use Illuminate\Support\Arr;
+use \Cache;
 
 class GenerateAppIdCommand extends Command
 {
@@ -28,6 +32,18 @@ class GenerateAppIdCommand extends Command
      */
     public function handle()
     {
-        $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
+        $interfaceUrl = Config::get('tools.interface_getapimessage_url');
+        $appId = Config::get('tools.interface_app_id');
+        $secret = Config::get('tools.interface_secret');
+        $cacheKey = Config::get('tools.cache_key');
+        $signString = 'app_id='.$appId.$secret;
+        $sign = md5($signString);
+        $contents = Curl::to($interfaceUrl)
+                    ->withData(array('app_id'=>$appId, 'sign'=>$sign))
+                    ->post();
+        //Cache::forget($cacheKey);
+        //Cache::forever($cacheKey, $contents);
+
+        $this->comment("ok".$contents);
     }
 }
