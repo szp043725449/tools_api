@@ -46,7 +46,7 @@ class GenerateAppIdCommand extends Command
         if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
             if (Arr::get($data, 'status') == 200) {
                 Cache::forget($cacheKey);
-                Cache::forever($cacheKey, Arr::get($data, 'data'));
+                Cache::forever($cacheKey, json_encode(Arr::get($data, 'data')));
             }
         }
 
