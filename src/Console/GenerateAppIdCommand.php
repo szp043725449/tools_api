@@ -42,8 +42,13 @@ class GenerateAppIdCommand extends Command
         $contents = Curl::to($interfaceUrl)
                     ->withData(array('app_id'=>$appId, 'sign'=>$sign))
                     ->post();
-        Cache::forget($cacheKey);
-        Cache::forever($cacheKey, $contents);
+        $data = json_decode($contents, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
+            if (Arr::get($data, 'status') == 200) {
+                Cache::forget($cacheKey);
+                Cache::forever($cacheKey, $contents);
+            }
+        }
 
         $this->comment("ok".$contents);
     }

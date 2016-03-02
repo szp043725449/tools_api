@@ -29,28 +29,29 @@ class ControllerSign extends BaseController implements ControllerSignInterface
         if ($configAppId == $appId) {
             return Config::get('tools.interface_secret');
         }
-
         $cacheKey = Config::get('tools.cache_key');
         $appIdMessage = Cache::get($cacheKey, null);
         if ($appIdMessage) {
             $debug = Config::get('app.debug');
             $appIdMessage = json_decode($appIdMessage, true);
-            if ($debug) {
-                $appIdMessage = $appIdMessage['test'];
-            } else {
-                $appIdMessage = $appIdMessage['product'];
-            }
-            
-            $app = Arr::where($appIdMessage, function($key, $value) use($appId){
-                        if ($appId == $value['app_id']) {
-                            return true;
-                        }
+            if (json_last_error() === JSON_ERROR_NONE && is_array($appIdMessage)) {
+                if ($debug) {
+                    $appIdMessage = $appIdMessage['test'];
+                } else {
+                    $appIdMessage = $appIdMessage['product'];
+                }
+                
+                $app = Arr::where($appIdMessage, function($key, $value) use($appId){
+                            if ($appId == $value['app_id']) {
+                                return true;
+                            }
 
-                        return false;
-                    });
-            if ($app) {
-                $this->_appMessage = $app;
-                return $app[0]['secret'];
+                            return false;
+                        });
+                if ($app) {
+                    $this->_appMessage = $app;
+                    return $app[0]['secret'];
+                }
             }
         }
 

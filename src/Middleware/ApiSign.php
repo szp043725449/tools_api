@@ -40,9 +40,9 @@ class ApiSign
                 if ($controllerClass instanceof ControllerSignInterface) {
                     $secret = $controllerClass->getSecret($appId);
                 }
-                $_sign = $signData['sign'];
-                $signData = Arr::except($signData, 'secret');
+                $_sign = Arr::get($signData, 'sign');
                 $signData = Arr::except($signData, 'sign');
+                $signData = Arr::except($signData, 'secret');
                 $mdSign = new MdSign($signData);
                 $sign = $mdSign->getSign($secret);
                 if (strtoupper($sign) == strtoupper($_sign)) {
