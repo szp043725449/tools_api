@@ -27,11 +27,8 @@ class ApiSign
         if (\Config::get($configName.'.openMiddlewareSign')) {
             $signData = $request->request->all();
             $appId = $request->request->get('app_id', '');
-            if (count($signData)>1) {
-                $sign = $request->request->get('sign', '');
-                if (!$appId || !$sign) {
-                    break;
-                }
+            $sign = $request->request->get('sign', '');
+            if (count($signData)>1 && $appId && $sign) {
                 $actionName = \Route::current()->getActionName();
                 $actionNameArray = explode('@', $actionName);
                 $controller = $actionNameArray[0];
