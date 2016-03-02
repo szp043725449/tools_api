@@ -16,7 +16,7 @@ class ControllerSign extends BaseController implements ControllerSignInterface
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    private $_appMessage;
+    private static $_appMessage;
 
     /**
      * [getSecret description]
@@ -49,7 +49,7 @@ class ControllerSign extends BaseController implements ControllerSignInterface
                             return false;
                         });
                 if ($app) {
-                    $this->_appMessage = $app;
+                    self::$_appMessage = $app;
                     return $app[0]['secret'];
                 }
             }
@@ -58,8 +58,8 @@ class ControllerSign extends BaseController implements ControllerSignInterface
         return "";
     }
 
-    public function getAppMessage()
+    public  function getAppMessage()
     {
-        return $this->_appMessage;
+        return self::$_appMessage;
     }
 }
