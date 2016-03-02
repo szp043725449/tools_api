@@ -39,6 +39,9 @@ class ApiSign
                 if ($controllerClass instanceof ControllerSignInterface) {
                     $secret = $controllerClass->getSecret($appId);
                 }
+                if (empty($secret)) {
+                    break;
+                }
                 unset($signData['secret']);
                 $_sign = $signData['sign'];
                 unset($signData['sign']);
