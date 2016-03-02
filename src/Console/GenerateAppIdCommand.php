@@ -8,6 +8,7 @@ use \Config;
 use \Curl;
 use Illuminate\Support\Arr;
 use \Cache;
+use Tools\Api\Sign\MdSign;
 
 class GenerateAppIdCommand extends Command
 {
@@ -36,8 +37,8 @@ class GenerateAppIdCommand extends Command
         $appId = Config::get('tools.interface_app_id');
         $secret = Config::get('tools.interface_secret');
         $cacheKey = Config::get('tools.cache_key');
-        $signString = 'app_id='.$appId.$secret;
-        $sign = md5($signString);
+        $mdSign = new MdSign(array('app_id'=>$appId));
+        $sign = $mdSign->getSign($secret);
         $contents = Curl::to($interfaceUrl)
                     ->withData(array('app_id'=>$appId, 'sign'=>$sign))
                     ->post();
