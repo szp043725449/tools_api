@@ -36,7 +36,16 @@ sign Middleware:
  */
 ```
 
+verification Method List:
+
+*exmobile
+*exIdCard
+*exname
+*expassword
+*exfunds
+
 When use toolsService verification,you should increased verification message in: 
+
 ```php
 resources\lang\zh_cn\validation.php
 ```
