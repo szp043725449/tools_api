@@ -36,10 +36,4 @@ sign Middleware:
  */
 ```
 
-Increased verification message in:
-
-```php
-/**
- * resources\lang\zh_cn\validation.php
- */
-```
+>When use toolsService verification,you should increased verification message in: **resources\lang\zh_cn\validation.php**.
