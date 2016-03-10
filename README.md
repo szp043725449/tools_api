@@ -13,7 +13,7 @@ php composer.phar require "tools/api:dev-master" -vvv
 After adding the package, add the ServiceProvider to the providers array in `config/app.php`
 
 ```php
-Tools\Api\ToolsServiceProvider::class,,
+Tools\Api\ToolsServiceProvider::class,
 ```
 
 Optionally you can register the ToolsService facade:
@@ -36,3 +36,10 @@ sign Middleware:
  */
 ```
 
+Increased verification message in:
+
+```php
+/**
+ * resources\lang\zh_cn\validation.php
+ */
+```
