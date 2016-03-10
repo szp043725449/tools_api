@@ -36,7 +36,7 @@ sign Middleware:
  */
 ```
 
-verification Method List:
+Verification Method List:
 
 - exmobile
 - exIdCard
