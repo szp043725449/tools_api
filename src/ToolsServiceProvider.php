@@ -25,6 +25,7 @@ class ToolsServiceProvider extends ServiceProvider {
         $this->registerCheckIdCardValidator();     
         $this->registerCheckNameValidator();
         $this->registerCheckPasswordValidator();
+        $this->registerCheckFundsValidator();
     }
 
     /**
@@ -88,7 +89,7 @@ class ToolsServiceProvider extends ServiceProvider {
      */
     protected function registerCheckMobileValidator()
     {
-        return Validator::extend('haolyyMobile', function($attribute, $value, $parameters, $validator) {
+        return Validator::extend('exMobile', function($attribute, $value, $parameters, $validator) {
             //判断长度11位，全数字
             if (!is_numeric($value) || mb_strlen($value) != 11) {
                 return false;
@@ -107,7 +108,7 @@ class ToolsServiceProvider extends ServiceProvider {
      */
     protected function registerCheckIdCardValidator()
     {
-        return Validator::extend('haolyyIdCard', function($attribute, $value, $parameters, $validator) {
+        return Validator::extend('exIdCard', function($attribute, $value, $parameters, $validator) {
             $vCity = [
                 '11', '12', '13', '14', '15', '21', '22',
                 '23', '31', '32', '33', '34', '35', '36',
@@ -161,20 +162,22 @@ class ToolsServiceProvider extends ServiceProvider {
      */
     protected function registerCheckNameValidator()
     {
-        return Validator::extend('haolyyName', function($attribute, $value, $parameters, $validator) {
-            $patternString = "/^[\x{4e00}-\x{9fa5}·]+$/u";
-            return preg_match($patternString, $value);
+        return Validator::extend('exname', function($attribute, $value, $parameters, $validator) {
+            if (preg_match("/^[\x{4e00}-\x{9fa5}·]+$/u", $value)) {
+                return true;
+            } else {
+                return false;
+            }
         });
     }
 
     /**
-     * [checkPassword 验证密码是否合法]
-     * @param  [string] $password [密码]
-     * @return [bool]           [验证结果]
+     * [registerCheckPasswordValidator 验证密码]
+     * @return [type] [description]
      */
     protected function registerCheckPasswordValidator()
     {
-        return Validator::extend('haolyyPassword', function($attribute, $value, $parameters, $validator) {
+        return Validator::extend('expassword', function($attribute, $value, $parameters, $validator) {
             $plen = mb_strlen($value);
             //必须英文加数字，6到12位
             if (preg_match("/(?!^(\d+|[a-zA-Z]+|[w~!@#$%._]+)$)^[\w~!@#$%._?]+$/i", $value) && $plen >= 6 && $plen <= 12) {
@@ -183,6 +186,20 @@ class ToolsServiceProvider extends ServiceProvider {
                 return false;
             }
         });
-
     }
+
+
+    protected function registerCheckFundsValidator()
+    {
+        return Validator::extend('exfunds', function($attribute, $value, $parameters, $validator) {
+            if ($value==0) {
+                return false;
+            }
+            if (preg_match("/^[0-9]{1,9}(\.[0-9]{0,4}){0,1}$/", $value)) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }    
 }
